@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-zinc-900 text-white min-h-screen">
+    <div class="container mx-auto p-8">
+      <!-- Header with logout button -->
+      <div class="flex justify-between items-center mb-10">
+        <h3 class="text-3xl font-semibold tracking-tight leading-snug">
+          <span class="font-light text-gray-300">Hello</span>, <%= user.name %>
+        </h3>
+        <a href="/allpost" class="text-blue-400 hover:underline text-1xl font-medium">
+           Go for all users posts →
+        </a>
+        <a
+          class="bg-red-500 hover:bg-red-600 transition-colors px-5 py-2 rounded-md text-sm font-medium tracking-wide"
+          href="/logout"
+          >Log out</a
+        >
+      </div>
+
+      <!-- Instructions to create a new post -->
+      <div class="mb-8">
+        <h5 class="text-xl font-semibold leading-snug text-gray-100">
+          Create a New Post
+        </h5>
+        <p class="text-gray-400 text-sm mt-1">
+          Share your thoughts with your followers
+        </p>
+      </div>
+
+      <!-- Post creation form -->
+      <form action="/post" method="post" class="space-y-5">
+        <div class="flex flex-col space-y-4 md:w-2/3">
+          <textarea
+          id="postContent"
+          class="w-full h-40 p-4 bg-zinc-800 border border-zinc-700 rounded-md text-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none resize-none text-base leading-relaxed placeholder-gray-500"
+          placeholder="What's on your mind? it should be greater than five words."
+          name="content"
+          oninput="document.getElementById('createPostButton').disabled = this.value.split(' ').filter(word => word.trim() !== '').length < 5;"
+      ></textarea>
+          <input
+          id="createPostButton"
+          class="bg-blue-500 hover:bg-blue-600 transition-colors w-40 py-2 rounded-md text-sm text-center cursor-pointer font-semibold"
+          type="submit"
+          value="Create Post"
+          disabled
+          
+      />
+        </div>
+      </form>
+
+      <!-- Displaying Posts -->
+      <div class="posts mt-12">
+        <h3 class="text-xl font-semibold tracking-wide text-gray-300 mb-6">
+          Your Posts
+        </h3>
+        <div class="postcontainer space-y-6">
+          <!-- Post item -->
+          <% user.posts.reverse().forEach(function(post) { %>
+          <!-- Loop through posts -->
+          <div class="post p-5 border-2 rounded-md bg-zinc-800 border-zinc-700">
+            <h4
+              class="text-lg text-blue-500 mb-2 text-sm font-medium leading-snug"
+            >
+              @<%= user.username %>
+            </h4>
+            <p class="text-sm mb-3 leading-relaxed text-gray-300">
+              <%= post.content %>
+            </p>
+            <small class="mt-1 inline-block text-zinc-600">
+              <%=post.likes.length%> likes
+            </small>
+            <div class="btns flex gap-6">
+              <a
+                class="text-blue-400 hover:underline font-medium text-sm"
+               
+                href="/like/<%=post._id %>"
+                onclick="event.preventDefault(); fetch(this.href).then(response => location.reload());"
+              >
+
+                <%= post.likes.indexOf(user._id)===-1 ? "Like":"Unlike"%>
+              </a>
+              <a
+                class="text-zinc-500 hover:underline font-medium text-sm"
+                href="/edit/<%=post._id%>"
+
+                >Edit</a
+              >
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

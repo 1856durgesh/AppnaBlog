@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Post</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-zinc-900 text-white min-h-screen">
+    <div class="container mx-auto p-8">
+      
+      <!-- Header with "Return to Profile" button -->
+      <div class="flex justify-between items-center mb-10">
+        <h3 class="text-3xl font-semibold tracking-tight leading-snug">
+          Post of All Users
+        </h3>
+        <a href="/profile" class="text-blue-400 hover:underline text-sm font-medium">
+          ← Return to Your Profile
+        </a>
+      </div>
+
+      <!-- Displaying all Posts -->
+      <div class="posts mt-12">
+        <div class="postcontainer space-y-6">
+          <!-- Post item -->
+          <% allposts.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(function(post) { %> <!-- Adjusted variable name to "post" -->
+            <div class="post p-5 border-2 rounded-md bg-zinc-800 border-zinc-700">
+              <h4 class="text-lg text-blue-500 mb-2 text-sm font-medium leading-snug">
+                @<%= post.user.username %>
+              </h4>
+              <p class="text-sm mb-3 leading-relaxed text-gray-300">
+                <%= post.content %>
+              </p>
+              <small class="mt-1 inline-block text-zinc-600">
+                <%= post.likes.length %> likes
+              </small>
+              <div class="btns flex gap-6">
+                <a
+                  class="text-blue-400 hover:underline font-medium text-sm"
+                  href="/like/<%= post._id %>"
+                  onclick="event.preventDefault(); fetch(this.href).then(response => location.reload());"
+                >
+                  <%= post.likes.indexOf(user._id) === -1 ? 'Like' : 'Unlike' %>
+                </a>
+              </div>
+            </div>
+          <% }) %> <!-- Corrected EJS loop closing tag -->
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

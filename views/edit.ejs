@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Post</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-zinc-900 text-white min-h-screen">
+
+  <div class="container mx-auto p-8">
+    <!-- Header with back button -->
+    <div class="flex justify-between items-center mb-10">
+      <h3 class="text-3xl font-semibold tracking-tight leading-snug">
+        <span class="font-light text-gray-300">Edit your post</span>
+      </h3>
+
+    </div>
+
+    <!-- Edit Post Form -->
+    <div class="bg-zinc-800 p-6 rounded-lg shadow-md max-w-2xl w-full mx-auto border border-zinc-700">
+      <form action="/update/<%= post._id %>" method="POST">
+        <!-- Text Area for Editing Post -->
+        <div class="mb-6">
+          <label for="content" class="block text-gray-400 font-medium text-lg mb-2">Post Content</label>
+          <textarea
+            id="content"
+            name="content"
+            rows="6"
+            class="w-full p-4 bg-zinc-700 border border-zinc-600 rounded-md text-gray-300 resize-none text-base leading-relaxed placeholder-gray-500 "
+          ><%= post.content %></textarea>
+        </div>
+
+        <!-- Buttons for Saving or Cancelling -->
+        <div class="flex justify-end space-x-4">
+          <a
+            href="/profile"
+            class="bg-red-500 hover:bg-red-600 transition-colors py-2 px-4 rounded-md text-sm font-semibold text-white"
+          >
+            Cancel
+          </a>
+          <button
+            type="submit"
+            class="bg-yellow-500 hover:bg-yellow-600 transition-colors py-2 px-4 rounded-md text-sm font-semibold text-gray-900"
+          >
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
